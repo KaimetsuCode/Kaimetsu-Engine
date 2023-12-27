@@ -8,6 +8,7 @@ private:
 public:
     StaticShader(const char* vertexPath, const char* fragmentPath): StaticShader::Shader(vertexPath, fragmentPath) {
         BindAttibute(0, "position");
+        BindAttibute(1, "textureCoords");
     }
     ~StaticShader() {}
 };

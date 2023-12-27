@@ -2,30 +2,31 @@
 #include <Window/Window.hpp>
 #include <RenderEngine/Loader.hpp>
 #include <RenderEngine/Renderer.hpp>
-#include <RenderEngine/RawModel.hpp>
+#include <Models/RawModel.hpp>
 #include <Shader/StaticShader.hpp>
+#include <Textures/ModelTexture.hpp>
+#include <Models/TexturedModel.hpp>
 
 std::vector<float> vertices = {
-    -0.5f, 0.5f, 0.0f,
-    -0.5f, -0.5f, 0.0f,
-    0.5f, -0.5f, 0.0f,
-    0.5f, 0.5f, 0.0f
+    0.5f,  0.5f, 0.0f,  
+    0.5f, -0.5f, 0.0f,  
+    -0.5f, -0.5f, 0.0f, 
+    -0.5f,  0.5f, 0.0f
 };
+
 
 std::vector<unsigned int> indices = {
-    0,1,3,
-    3,2,1
+    0, 1, 3, 
+    1, 2, 3
 };
-void checkGLError(const char* file, int line) {
-    GLenum error = glGetError();
-    while (error != GL_NO_ERROR) {
-        const char* errorString = reinterpret_cast<const char*>(glewGetErrorString(error));
-        std::cerr << "OpenGL error in file '" << file << "' at line " << line << ": " << errorString << std::endl;
-        error = glGetError();
-    }
-}
 
-#define CHECK_GL_ERROR() checkGLError(__FILE__, __LINE__)
+std::vector<float> textureCoords = {
+    0.0f,0.0f,
+    0.0f,1.0f,
+    1.0f,1.0f,
+    1.0f,0.0f
+};
+
 int main(int argc, char** argv) {
     const int WIDTH = 1080;
     const int HEIGHT = 720;
@@ -34,8 +35,9 @@ int main(int argc, char** argv) {
     Loader* loader = new Loader();
     Renderer* renderer = new Renderer();
 
-    RawModel* squareModel = loader->LoadToVAO(vertices, indices);
-
+    RawModel* squareModel = loader->LoadToVAO(vertices, textureCoords, indices);
+    ModelTexture* modelTexture = new ModelTexture(loader->LoadTexture("Family.png"));
+    TexturedModel* model = new TexturedModel(squareModel, modelTexture);
     StaticShader* staticShader = new StaticShader("./Assets/Shaders/Model.vert", "./Assets/Shaders/Model.frag");
     
     SDL_Event evt;
@@ -46,7 +48,7 @@ int main(int argc, char** argv) {
 
         staticShader->use();
 
-        renderer->Render(squareModel);
+        renderer->Render(model);
 
         window->Render();
     }
@@ -55,6 +57,8 @@ int main(int argc, char** argv) {
     delete loader;
     delete renderer;
     delete window;
+    delete modelTexture;
+    delete model;
 
     return 0;
 }

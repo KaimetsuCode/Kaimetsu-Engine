@@ -101,6 +101,10 @@ public:
         glUniform1f(glGetUniformLocation(id, name.c_str()), value);
     }
 
+    int GetUniform(std::string uniformName) {
+        return glGetUniformLocation(id, uniformName.c_str());
+    }
+
 private:
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------
