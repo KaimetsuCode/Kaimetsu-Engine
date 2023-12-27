@@ -39,6 +39,9 @@ namespace kaim {
     }
 
     void Window::Update(float r, float g, float b, float a) {
+        Uint64 currentFrame = SDL_GetTicks64();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(r, g, b, a);
         GLenum error = glGetError();

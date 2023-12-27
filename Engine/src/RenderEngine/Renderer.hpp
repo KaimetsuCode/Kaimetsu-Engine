@@ -7,10 +7,13 @@
 class Renderer
 {
 private:
-    /* data */
+    const float FOV = 70;
+    const float NEAR_PLANE = 0.1f;
+    const float FAR_PLANE = 1000.0f;
 public:
-    void Prepare();
+    void Prepare() {};
     void Render(Entity* entity, StaticShader* staticShader);
-    Renderer(/* args */);
+    Renderer(StaticShader* staticShader, float aspectRatio);
+
     ~Renderer();
 };

@@ -1,7 +1,11 @@
 #include "Renderer.hpp"
 #include <iostream>
-Renderer::Renderer(/* args */)
+Renderer::Renderer(StaticShader* staticShader,  float aspectRatio)
 {
+
+    staticShader->use();
+    glm::mat4 projection = glm::perspective(FOV, aspectRatio, NEAR_PLANE, FAR_PLANE);
+    staticShader->LoadprojectionMatrix(projection);
 }
 
 void Renderer::Render(Entity* entity, StaticShader* staticShader) {

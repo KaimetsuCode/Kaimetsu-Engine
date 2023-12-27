@@ -14,12 +14,15 @@ namespace kaim {
         SDL_Window* window;
         SDL_GLContext context;
         bool isRunning = false;
+        float deltaTime = 0;
+        float lastFrame = 0;
     public:
         Window(std::string title, int width, int height);
         void Update(float r, float g, float b, float a);
         void Render();
         void Close();
         bool IsOpen();
+        float DeltaTime() { return deltaTime; }
         ~Window();
     };
 }
