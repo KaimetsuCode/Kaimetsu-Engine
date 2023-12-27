@@ -8,6 +8,9 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class Shader
 {
@@ -86,24 +89,60 @@ public:
     }
     // utility uniform functions
     // ------------------------------------------------------------------------
-    void setBool(const std::string& name, bool value) const
+    void SetBool(const std::string& name, bool value) const
     {
         glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
     }
     // ------------------------------------------------------------------------
-    void setInt(const std::string& name, int value) const
+    void SetInt(const std::string& name, int value) const
     {
         glUniform1i(glGetUniformLocation(id, name.c_str()), value);
     }
+
+    void SetInt(int locationID, int value) const
+    {
+        glUniform1i(locationID, value);
+    }
     // ------------------------------------------------------------------------
-    void setFloat(const std::string& name, float value) const
+    void SetFloat(const std::string& name, float value) const
     {
         glUniform1f(glGetUniformLocation(id, name.c_str()), value);
     }
 
-    int GetUniform(std::string uniformName) {
-        return glGetUniformLocation(id, uniformName.c_str());
+    void SetFloat(int locationID, float value) const
+    {
+        glUniform1f(locationID, value);
     }
+
+    void SetVec3(std::string name, glm::vec3 vec) {
+        glUniform3f(glGetUniformLocation(id, name.c_str()), vec.x, vec.y, vec.z);
+    }
+
+    void SetVec2(std::string name, glm::vec3 vec) {
+        glUniform3f(glGetUniformLocation(id, name.c_str()), vec.x, vec.y, vec.z);
+    }
+
+    void SetMat4(std::string name, glm::mat4& mat4) {
+        glUniformMatrix4fv( glGetUniformLocation(id, name.c_str() ), 1, GL_FALSE, glm::value_ptr( mat4 ) );
+    }
+
+    void SetVec3(int locationID, glm::vec3 vec) {
+        glUniform3f(locationID, vec.x, vec.y, vec.z);
+    }
+
+    void SetVec2(int locationID, glm::vec3 vec) {
+        glUniform3f(locationID, vec.x, vec.y, vec.z);
+    }
+
+    void SetMat4(int locationID, glm::mat4 mat4) {
+        glUniformMatrix4fv(locationID, 1, GL_FALSE, glm::value_ptr( mat4 ) );
+    }
+
+    int GetUniform(std::string name) {
+        return glGetUniformLocation(id, name.c_str());
+    }
+    
+
 
 private:
     // utility function for checking shader compilation/linking errors.

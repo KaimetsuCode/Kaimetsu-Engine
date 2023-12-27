@@ -6,6 +6,7 @@
 #include <Shader/StaticShader.hpp>
 #include <Textures/ModelTexture.hpp>
 #include <Models/TexturedModel.hpp>
+#include <Entity/Entity.hpp>
 
 std::vector<float> vertices = {
     0.5f,  0.5f, 0.0f,  
@@ -40,15 +41,19 @@ int main(int argc, char** argv) {
     TexturedModel* model = new TexturedModel(squareModel, modelTexture);
     StaticShader* staticShader = new StaticShader("./Assets/Shaders/Model.vert", "./Assets/Shaders/Model.frag");
     
+
+    Entity* entity = new Entity(model, glm::vec3(0.0f,0.0f,0.0f));
+
     SDL_Event evt;
 
     while(window->IsOpen()) {
         while(SDL_PollEvent(&evt)) { if(evt.type == SDL_QUIT) { window->Close(); } }
         window->Update(0.1f, 0.7f,1.0f,1.0f);
+        entity->IncreasePosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
         staticShader->use();
 
-        renderer->Render(model);
+        renderer->Render(entity, staticShader);
 
         window->Render();
     }
@@ -59,6 +64,7 @@ int main(int argc, char** argv) {
     delete window;
     delete modelTexture;
     delete model;
+    delete entity;
 
     return 0;
 }
