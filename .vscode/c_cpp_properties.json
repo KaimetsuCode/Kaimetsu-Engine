@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "configs",
+            "includePath": [
+                "${workspaceFolder}/Windows/includes/**",
+                "${workspaceFolder}/Engine/src/**",
+                "${workspaceFolder}/Engine/src/",
+                "${workspaceFolder}/Windows/includes"
+            ],
+            "defines": [
+                "_DEBUG",
+                "KAIM_EXPORT"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}
